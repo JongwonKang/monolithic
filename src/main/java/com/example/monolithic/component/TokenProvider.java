@@ -1,6 +1,8 @@
 package com.example.monolithic.component;
 
-import com.example.common.dto.TokenDto;
+import com.example.monolithic.dto.TokenDto;
+import com.example.monolithic.enums.ErrorStatus;
+import com.example.monolithic.error.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -88,25 +90,18 @@ public class TokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
-        } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
-        } catch (IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new CustomException(ErrorStatus.INVALID_TOKEN);
+        } catch (Exception e){
+            throw new CustomException(ErrorStatus.INVALID_TOKEN);
         }
-        return false;
     }
 
     private Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
-            //throw new CustomException(ErrorCode.INVALID_TOKEN);
-            //return e.getClaims();
-            return null;
+            throw new CustomException(ErrorStatus.INVALID_TOKEN);
         }
     }
 }
