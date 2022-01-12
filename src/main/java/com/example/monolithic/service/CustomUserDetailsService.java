@@ -1,7 +1,9 @@
 package com.example.monolithic.service;
 
-import com.example.user.repository.Member;
-import com.example.user.repository.MemberRepository;
+import com.example.monolithic.enums.ErrorStatus;
+import com.example.monolithic.error.CustomException;
+import com.example.monolithic.repository.Member;
+import com.example.monolithic.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,9 +28,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByLoginId(username)
                 .map(this::createUserDetails)
-                //.orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-                .orElseThrow(() -> new RuntimeException());
-                //TODO
+                .orElseThrow(() -> new CustomException(ErrorStatus.INVALID_USER));
+
     }
 
     private UserDetails createUserDetails(Member member) {
