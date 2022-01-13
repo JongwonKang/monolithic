@@ -1,5 +1,7 @@
 package com.example.monolithic.component;
 
+import com.example.monolithic.enums.ErrorStatus;
+import com.example.monolithic.error.CustomException;
 import com.example.monolithic.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new AuthenticationException(username) {
-                @Override
-                public String getMessage() {
-                    return super.getMessage();
-                }
-            };//TODO
-            //throw new BadCredentialsException(username);
+            throw new CustomException(ErrorStatus.INVALID_PASSWORD);
         }
 
         UsernamePasswordAuthenticationToken resultAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

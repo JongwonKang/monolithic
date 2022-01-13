@@ -3,6 +3,7 @@ package com.example.monolithic.component;
 import com.example.monolithic.dto.TokenDto;
 import com.example.monolithic.enums.ErrorStatus;
 import com.example.monolithic.error.CustomException;
+import com.example.monolithic.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -11,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -33,10 +33,11 @@ public class TokenProvider {
     private static final String JWT_SECRET = "c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK";
 
     private final Key key;
-
-    public TokenProvider() {
+    private final CustomUserDetailsService userDetailsService;
+    public TokenProvider(CustomUserDetailsService userDetailsService) {
         byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.userDetailsService = userDetailsService;
     }
 
     public TokenDto generateTokenDto(Authentication authentication) {
@@ -81,9 +82,10 @@ public class TokenProvider {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
+        //UserDetails userDetail = new User(claims.getSubject(), "", authorities);
+        UserDetails userDetail = userDetailsService.loadUserByUsername(claims.getSubject());
 
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        return new UsernamePasswordAuthenticationToken(userDetail, "", authorities);
     }
 
     public boolean validateToken(String token) {

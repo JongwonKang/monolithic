@@ -1,5 +1,6 @@
 package com.example.monolithic.service;
 
+import com.example.monolithic.component.MemberAdapter;
 import com.example.monolithic.enums.ErrorStatus;
 import com.example.monolithic.error.CustomException;
 import com.example.monolithic.repository.Member;
@@ -21,15 +22,13 @@ import java.util.Collections;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
+    private final MemberRepository memberRepository;
 
-    private final MemberRepository userRepository;
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByLoginId(username)
-                .map(this::createUserDetails)
-                .orElseThrow(() -> new CustomException(ErrorStatus.INVALID_USER));
-
+        Member member = memberRepository.findByLoginId(username).orElseThrow(() -> new CustomException(ErrorStatus.INVALID_USER));
+        return new MemberAdapter(member);
     }
 
     private UserDetails createUserDetails(Member member) {
