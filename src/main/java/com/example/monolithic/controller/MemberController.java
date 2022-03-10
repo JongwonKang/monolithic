@@ -4,6 +4,7 @@ import com.example.monolithic.dto.request.MemberRequestDto;
 import com.example.monolithic.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,4 +31,8 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
+    @GetMapping
+    public ResponseEntity getMemberList(Pageable page){
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.getMemberList(page));
+    }
 }
