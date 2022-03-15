@@ -13,11 +13,11 @@ public class MemberAdapter extends User {
     private Member member;
 
     public MemberAdapter(Member member){
-        super(member.getLoginId(), member.getPassword(), test(member.getAuthority()));
+        super(member.getLoginId(), member.getPassword(), auth(member.getAuthority()));
         this.member = member;
     }
 
-    private static Collection<? extends GrantedAuthority> test(Authority authority){
+    private static Collection<? extends GrantedAuthority> auth(Authority authority){
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.name());
         return Collections.singleton(grantedAuthority);
     }

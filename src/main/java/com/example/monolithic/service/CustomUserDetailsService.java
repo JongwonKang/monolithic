@@ -28,6 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByLoginId(username).orElseThrow(() -> new CustomException(ErrorStatus.INVALID_USER));
+        //return createUserDetails(member);
         return new MemberAdapter(member);
     }
 

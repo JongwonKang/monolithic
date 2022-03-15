@@ -16,7 +16,7 @@ public class MemberRequestDto {
     private Authority authority;
 
 
-    public Member toAdmin(PasswordEncoder passwordEncoder){
+    public Member toMember(PasswordEncoder passwordEncoder){
         return Member.builder()
                 .loginId(this.loginId)
                 .password(passwordEncoder.encode(this.password))

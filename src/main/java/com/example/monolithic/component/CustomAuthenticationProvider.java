@@ -34,7 +34,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new CustomException(ErrorStatus.INVALID_PASSWORD);
         }
 
-        UsernamePasswordAuthenticationToken resultAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken resultAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 
         return resultAuthenticationToken;
     }

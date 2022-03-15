@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import static com.example.monolithic.util.MapperUtil.map;
@@ -23,17 +24,19 @@ import static com.example.monolithic.util.MapperUtil.map;
 public class MemberService {
     private final MemberRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
-    private MemberQueryRepository memberQueryRepository;
+    private final MemberQueryRepository memberQueryRepository;
 
+    @Transactional
     public MemberResponseDto signupMember(MemberRequestDto memberRequestDto){
-        Member admin = memberRequestDto.toAdmin(passwordEncoder);
-        System.out.println(" : " + this);
+        Member admin = memberRequestDto.toMember(passwordEncoder);
         if (adminRepository.existsByLoginId(memberRequestDto.getLoginId())) {
             throw new CustomException(ErrorStatus.RESOURCE_ALREADY_EXISTS);
         }
+
         return new MemberResponseDto(adminRepository.save(admin));
     }
 
+    @Transactional(readOnly = true)
     public ListResponseDTO<List<MemberResponseDto>> getMemberList(Pageable page){
         Page<MemberResponseDto> getMemberList = memberQueryRepository.getMemberList(page);
 
