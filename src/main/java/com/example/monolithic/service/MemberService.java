@@ -28,12 +28,12 @@ public class MemberService {
 
     @Transactional
     public MemberResponseDto signupMember(MemberRequestDto memberRequestDto){
-        Member admin = memberRequestDto.toMember(passwordEncoder);
+        Member member = memberRequestDto.toMember(passwordEncoder);
         if (memberRepository.existsByLoginId(memberRequestDto.getLoginId())) {
             throw new CustomException(ErrorStatus.RESOURCE_ALREADY_EXISTS);
         }
 
-        return new MemberResponseDto(memberRepository.save(admin));
+        return new MemberResponseDto(memberRepository.save(member));
     }
 
     @Transactional(readOnly = true)
