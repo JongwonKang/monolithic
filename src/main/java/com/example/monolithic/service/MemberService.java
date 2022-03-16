@@ -22,18 +22,18 @@ import static com.example.monolithic.util.MapperUtil.map;
 @RequiredArgsConstructor
 @Service
 public class MemberService {
-    private final MemberRepository adminRepository;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberQueryRepository memberQueryRepository;
 
     @Transactional
     public MemberResponseDto signupMember(MemberRequestDto memberRequestDto){
         Member admin = memberRequestDto.toMember(passwordEncoder);
-        if (adminRepository.existsByLoginId(memberRequestDto.getLoginId())) {
+        if (memberRepository.existsByLoginId(memberRequestDto.getLoginId())) {
             throw new CustomException(ErrorStatus.RESOURCE_ALREADY_EXISTS);
         }
 
-        return new MemberResponseDto(adminRepository.save(admin));
+        return new MemberResponseDto(memberRepository.save(admin));
     }
 
     @Transactional(readOnly = true)
@@ -41,5 +41,10 @@ public class MemberService {
         Page<MemberResponseDto> getMemberList = memberQueryRepository.getMemberList(page);
 
         return new ListResponseDTO<>(getMemberList.getContent(), map(getMemberList, PageMetadata.class));
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResponseDto getMember(Member member){
+        return map(memberRepository.findByLoginId(member.getLoginId()), MemberResponseDto.class);
     }
 }

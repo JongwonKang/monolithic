@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping
-    public ResponseEntity getMember(@AuthenticationPrincipal MemberAdapter member){
+    @GetMapping("/{id}")
+    public ResponseEntity getMember(@AuthenticationPrincipal MemberAdapter member, @PathVariable Long id){
         log.info("member = {}",  member.getMember().getEmail());
-        return ResponseEntity.status(HttpStatus.OK).body("");
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.getMember(member.getMember()));
     }
 
     @PostMapping

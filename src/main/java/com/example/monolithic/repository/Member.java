@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +26,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Column
     private Authority authority;
-
 
     @Builder
     public Member(String loginId, String email, String password, Authority authority) {
