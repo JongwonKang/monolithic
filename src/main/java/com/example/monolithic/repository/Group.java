@@ -1,6 +1,7 @@
 package com.example.monolithic.repository;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,5 +27,9 @@ public class Group {
     @UpdateTimestamp
     private LocalDateTime lastModifiedAt;
 
+    @Builder
+    public Group(String groupName) {
+        this.groupName = groupName;
+    }
 }
 
