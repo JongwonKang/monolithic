@@ -5,6 +5,7 @@ import com.example.monolithic.dto.request.GroupRequestDto;
 import com.example.monolithic.dto.response.GroupDetailResponseDto;
 import com.example.monolithic.dto.response.GroupResponseDto;
 import com.example.monolithic.enums.ErrorStatus;
+import com.example.monolithic.enums.GroupMemberRole;
 import com.example.monolithic.error.CustomException;
 import com.example.monolithic.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,9 @@ public class GroupService {
     public void leaveGroup(GroupMemberRequestDto groupMemberRequestDto){
         GroupMember groupMember = groupMemberRepository.findByMemberAndGroup(getMember(groupMemberRequestDto.getMemberId()), getGroup(groupMemberRequestDto.getGroupId()))
                 .orElseThrow(() -> new CustomException(ErrorStatus.NOT_FOUND_GROUP_MEMBER));
+        if(groupMember.getRole() == GroupMemberRole.MASTER){
+            throw new CustomException(ErrorStatus.NOT_LEAVE);
+        }
         groupMemberRepository.delete(groupMember);
     }
 
