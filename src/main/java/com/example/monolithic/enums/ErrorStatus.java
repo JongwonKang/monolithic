@@ -16,6 +16,7 @@ public enum ErrorStatus {
     INTERNAL_SERVER_ERROR("serverError", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_TOKEN("토큰 정보가 잘못되었습니다.", HttpStatus.UNAUTHORIZED),
     NOT_FOUND_GROUP("그룹 정보가 없습니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_GROUP_MEMBER("그룹 회원이 아닙니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_MEMBER("회원 정보가 없습니다.", HttpStatus.NOT_FOUND);
     private final String msg;
     private final HttpStatus httpStatus;
