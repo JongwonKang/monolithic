@@ -10,18 +10,22 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import static com.example.monolithic.repository.QMember.member;
+
 @RequiredArgsConstructor
 @Repository
 public class MemberQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    private QMember member = QMember.member;
     public Page<MemberResponseDto> getMemberList(Pageable pageable){
         QueryResults<MemberResponseDto> query = jpaQueryFactory
                 .select(Projections.fields(MemberResponseDto.class,
                         member.email
                 ))
                 .from(member)
+                .orderBy(member.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetchResults();
         return new PageImpl<>(query.getResults(), pageable, query.getTotal());
     }

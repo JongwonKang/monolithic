@@ -3,6 +3,7 @@ package com.example.monolithic.service;
 import com.example.monolithic.dto.request.GroupMemberRequestDto;
 import com.example.monolithic.dto.request.GroupRequestDto;
 import com.example.monolithic.dto.response.GroupDetailResponseDto;
+import com.example.monolithic.dto.response.GroupMemberResponseDto;
 import com.example.monolithic.dto.response.GroupResponseDto;
 import com.example.monolithic.enums.ErrorStatus;
 import com.example.monolithic.enums.GroupMemberRole;
@@ -12,12 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class GroupService {
     private final GroupRepository groupRepository;
     private final GroupMemberRepository groupMemberRepository;
     private final MemberRepository memberRepository;
+    private final GroupMemberQueryRepository groupMemberQueryRepository;
 
     @Transactional
     public GroupResponseDto createGroup(GroupRequestDto groupRequestDto){
@@ -38,6 +42,11 @@ public class GroupService {
             throw new CustomException(ErrorStatus.NOT_LEAVE);
         }
         groupMemberRepository.delete(groupMember);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GroupMemberResponseDto> getGroupMemberList(Long groupId){
+        return groupMemberQueryRepository.getGroupMemberList(groupId);
     }
 
     public Member getMember(Long memberId){
