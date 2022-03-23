@@ -18,7 +18,8 @@ public enum ErrorStatus {
     NOT_LEAVE( "관리자는 탈퇴할 수 없습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_GROUP("그룹 정보가 없습니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_GROUP_MEMBER("그룹 회원이 아닙니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_MEMBER("회원 정보가 없습니다.", HttpStatus.NOT_FOUND);
+    NOT_FOUND_MEMBER("회원 정보가 없습니다.", HttpStatus.NOT_FOUND),
+    NOT_GROUP_MASTER("그룹 관리자가 아닙니다.", HttpStatus.NOT_FOUND);
     private final String msg;
     private final HttpStatus httpStatus;
 

@@ -49,6 +49,13 @@ public class GroupService {
         return groupMemberQueryRepository.getGroupMemberList(groupId);
     }
 
+    @Transactional
+    public void delegateGroupMaster(Member member, Long groupId, Long memberId){
+        GroupMember groupMember = groupMemberRepository.findByMemberAndGroup(getMember(member.getId()), getGroup(groupId))
+                .orElseThrow(() -> new CustomException(ErrorStatus.NOT_FOUND_GROUP_MEMBER));
+        if(groupMember.getRole() != GroupMemberRole.MASTER) throw new CustomException(ErrorStatus.NOT_GROUP_MASTER);
+    }
+
     public Member getMember(Long memberId){
         return memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ErrorStatus.NOT_FOUND_GROUP));
     }
