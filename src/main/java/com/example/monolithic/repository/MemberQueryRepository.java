@@ -1,6 +1,7 @@
 package com.example.monolithic.repository;
 
 import com.example.monolithic.dto.response.MemberResponseDto;
+import com.example.monolithic.dto.response.QMemberResponseDto;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,9 +20,10 @@ public class MemberQueryRepository {
 
     public Page<MemberResponseDto> getMemberList(Pageable pageable){
         QueryResults<MemberResponseDto> query = jpaQueryFactory
-                .select(Projections.fields(MemberResponseDto.class,
+                /*.select(Projections.fields(MemberResponseDto.class,
                         member.email
-                ))
+                ))*/
+                .select(new QMemberResponseDto(member))
                 .from(member)
                 .orderBy(member.id.desc())
                 .offset(pageable.getOffset())
