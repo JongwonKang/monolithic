@@ -33,7 +33,7 @@ public class MemberService {
             throw new CustomException(ErrorStatus.RESOURCE_ALREADY_EXISTS);
         }
 
-        return new MemberResponseDto(memberRepository.save(member));
+        return new MemberResponseDto(memberRepository.save(member.publish()));
     }
 
     @Transactional(readOnly = true)

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "tb_member")
 @Entity
-public class Member {
+public class Member extends AbstractAggregateRoot<Member> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +34,11 @@ public class Member {
         this.email = email;
         this.password = password;
         this.authority = authority;
+    }
+
+    public Member publish() {
+        this.registerEvent(new MemberEvent(this));
+        return this;
     }
 }
 
