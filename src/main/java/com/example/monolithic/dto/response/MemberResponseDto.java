@@ -20,8 +20,8 @@ public class MemberResponseDto {
     private Authority authority;
 
     @QueryProjection
-    public MemberResponseDto(Member admin){
-        this.loginId = admin.getLoginId();
-        this.authority = admin.getAuthority();
+    public MemberResponseDto(Member member){
+        this.loginId = member.getLoginId();
+        this.authority = member.getAuthority();
     }
 }
