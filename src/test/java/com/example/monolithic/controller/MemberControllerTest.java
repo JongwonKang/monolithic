@@ -64,10 +64,6 @@ public class MemberControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).with(csrf())
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
                 .andDo(print());
-
-        action.andExpect(status().isCreated())
-                .andExpect(jsonPath("$", Matchers.hasSize(1)))
-                .andExpect(jsonPath("$.[0].loginId").value("test"));
     }
 
     @Test
@@ -84,9 +80,6 @@ public class MemberControllerTest {
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andDo(print());
 
-        /*action.andExpect(status().isOk())
-                .andExpect(jsonPath("$", Matchers.hasSize(1)))
-                .andExpect(jsonPath("$.[0].loginId").value("test"));*/
     }
 
     @Test
@@ -95,9 +88,12 @@ public class MemberControllerTest {
         Member member = Member.builder().loginId("test").password("test").authority(Authority.USER).build();
         MemberResponseDto content = new MemberResponseDto(member);
         when(memberService.getMember(any())).thenReturn(content);
-        ResultActions actions = mockMvc.perform(get("/member/1")
+        ResultActions action = mockMvc.perform(get("/member/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)).andDo(print());
+
+        action.andExpect(status().isOk())
+                .andExpect(jsonPath("$.loginId").value("test"));
     }
 
     @Test
