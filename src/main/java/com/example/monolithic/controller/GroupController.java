@@ -27,7 +27,7 @@ public class GroupController {
 
     @GetMapping("/{id}")
     public ResponseEntity getGroup(@PathVariable Long id){
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroup(id));
     }
 
     @GetMapping

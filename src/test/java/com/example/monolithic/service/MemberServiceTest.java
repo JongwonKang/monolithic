@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
-    @InjectMocks //service 객체가 만들어질때 @Mock의 객체를 주입
+    @InjectMocks
     private MemberService memberService;
 
     @Mock
