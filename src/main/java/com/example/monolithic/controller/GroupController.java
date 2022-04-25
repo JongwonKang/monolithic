@@ -17,12 +17,12 @@ public class GroupController {
 
     @PostMapping
     public ResponseEntity createGroup(@RequestBody GroupRequestDto groupRequestDto){
-        return ResponseEntity.status(HttpStatus.OK).body(groupService.createGroup(groupRequestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(groupService.createGroup(groupRequestDto));
     }
 
-    @PutMapping
-    public ResponseEntity updateGroup(){
-        return null;
+    @PutMapping("/{id}")
+    public ResponseEntity updateGroup(@PathVariable Long id, @RequestBody GroupRequestDto groupRequestDto){
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.updateGroup(id, groupRequestDto));
     }
 
     @GetMapping("/{id}")

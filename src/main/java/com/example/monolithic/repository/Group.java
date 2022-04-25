@@ -31,5 +31,9 @@ public class Group {
     public Group(String groupName) {
         this.groupName = groupName;
     }
+
+    public void updateGroup(String groupName){
+        this.groupName = groupName;
+    }
 }
 

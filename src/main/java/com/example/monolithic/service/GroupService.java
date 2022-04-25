@@ -63,6 +63,13 @@ public class GroupService {
         if(groupMember.getRole() != GroupMemberRole.MASTER) throw new CustomException(ErrorStatus.NOT_GROUP_MASTER);
     }
 
+    @Transactional
+    public GroupResponseDto updateGroup(Long id, GroupRequestDto groupRequestDto){
+        Group group = getGroup(id);
+        group.updateGroup(groupRequestDto.getGroupName());
+        return new GroupResponseDto(group);
+    }
+
     public Member getMember(Long memberId){
         return memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ErrorStatus.NOT_FOUND_GROUP));
     }
