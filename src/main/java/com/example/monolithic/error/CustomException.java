@@ -5,7 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class CustomException extends RuntimeException{
-    private final ErrorStatus errorCode;
+    private final ErrorStatus errorStatus;
+    private String message;
+
+    public CustomException(ErrorStatus errorStatus, String message) {
+        this.errorStatus = errorStatus;
+        this.message = message;
+    }
+
+    public CustomException(ErrorStatus errorStatus) {
+        this.errorStatus = errorStatus;
+    }
 }

@@ -23,8 +23,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = { CustomException.class })
     protected ResponseEntity<ErrorResponse> handleCustomException(CustomException e) {
-        log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
-        return ErrorResponse.toResponseEntity(e.getErrorCode());
+        log.error("handleCustomException throw CustomException : {}", e.getErrorStatus());
+        return ErrorResponse.toResponseEntity(e);
     }
 
     @ExceptionHandler(value = { BadCredentialsException.class })
