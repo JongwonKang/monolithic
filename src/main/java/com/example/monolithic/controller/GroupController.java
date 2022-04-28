@@ -2,6 +2,7 @@ package com.example.monolithic.controller;
 
 import com.example.monolithic.dto.request.GroupMemberRequestDto;
 import com.example.monolithic.dto.request.GroupRequestDto;
+import com.example.monolithic.dto.request.SearchRequestDto;
 import com.example.monolithic.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +40,8 @@ public class GroupController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getGroupMemberList(@PageableDefault(page = 0, size = 5) Pageable page, @PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupMemberList(page, id));
+    public ResponseEntity getGroupMemberList(@PageableDefault(page = 0, size = 5) Pageable page, @PathVariable Long id, @RequestBody SearchRequestDto searchRequestDto){
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupMemberList(page, id, searchRequestDto));
     }
 
     @PostMapping("/join")

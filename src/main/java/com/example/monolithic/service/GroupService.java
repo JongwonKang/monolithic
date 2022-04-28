@@ -3,6 +3,7 @@ package com.example.monolithic.service;
 import com.example.monolithic.dto.PageMetadata;
 import com.example.monolithic.dto.request.GroupMemberRequestDto;
 import com.example.monolithic.dto.request.GroupRequestDto;
+import com.example.monolithic.dto.request.SearchRequestDto;
 import com.example.monolithic.dto.response.GroupDetailResponseDto;
 import com.example.monolithic.dto.response.GroupMemberResponseDto;
 import com.example.monolithic.dto.response.GroupResponseDto;
@@ -52,8 +53,8 @@ public class GroupService {
     }
 
     @Transactional(readOnly = true)
-    public ListResponseDTO<List<GroupMemberResponseDto>> getGroupMemberList(Pageable page, Long groupId){
-        Page<GroupMemberResponseDto> groupMemberList = groupMemberQueryRepository.getGroupMemberList(page, groupId);
+    public ListResponseDTO<List<GroupMemberResponseDto>> getGroupMemberList(Pageable page, Long groupId, SearchRequestDto searchRequestDto){
+        Page<GroupMemberResponseDto> groupMemberList = groupMemberQueryRepository.getGroupMemberList(page, groupId, searchRequestDto);
         return new ListResponseDTO<>(groupMemberList.getContent(), map(groupMemberList, PageMetadata.class));
     }
 
