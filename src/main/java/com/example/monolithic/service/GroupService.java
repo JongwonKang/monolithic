@@ -41,18 +41,25 @@ public class GroupService {
     }
 
     @Transactional
-    public void leaveGroup(GroupMemberRequestDto groupMemberRequestDto){
+    public Long leaveGroup(GroupMemberRequestDto groupMemberRequestDto){
         GroupMember groupMember = groupMemberRepository.findByMemberAndGroup(getMember(groupMemberRequestDto.getMemberId()), getGroup(groupMemberRequestDto.getGroupId()))
                 .orElseThrow(() -> new CustomException(ErrorStatus.NOT_FOUND_GROUP_MEMBER));
         if(groupMember.getRole() == GroupMemberRole.MASTER){
             throw new CustomException(ErrorStatus.NOT_LEAVE);
         }
         groupMemberRepository.delete(groupMember);
+        return groupMemberRequestDto.getMemberId();
     }
 
     @Transactional(readOnly = true)
     public ListResponseDTO<List<GroupMemberResponseDto>> getGroupMemberList(Pageable page, Long groupId){
         Page<GroupMemberResponseDto> groupMemberList = groupMemberQueryRepository.getGroupMemberList(page, groupId);
+        return new ListResponseDTO<>(groupMemberList.getContent(), map(groupMemberList, PageMetadata.class));
+    }
+
+    @Transactional(readOnly = true)
+    public ListResponseDTO<List<GroupResponseDto>> getGroupList(Pageable page){
+        Page<GroupResponseDto> groupMemberList = groupMemberQueryRepository.getGroupList(page);
         return new ListResponseDTO<>(groupMemberList.getContent(), map(groupMemberList, PageMetadata.class));
     }
 

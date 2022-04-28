@@ -1,6 +1,7 @@
 package com.example.monolithic.repository;
 
 import com.example.monolithic.dto.response.GroupMemberResponseDto;
+import com.example.monolithic.dto.response.GroupResponseDto;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -39,4 +40,20 @@ public class GroupMemberQueryRepository {
                 .fetchResults();
         return new PageImpl<>(query.getResults(), pageable, query.getTotal());
     }
+
+    public Page<GroupResponseDto> getGroupList(Pageable pageable){
+        QueryResults<GroupResponseDto> query = jpaQueryFactory
+                .select(Projections.fields(GroupResponseDto.class,
+                        group.id,
+                        group.groupName,
+                        group.createdAt
+                ))
+                .from(group)
+                .orderBy(group.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        return new PageImpl<>(query.getResults(), pageable, query.getTotal());
+    }
+
 }

@@ -33,6 +33,11 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroup(id));
     }
 
+    @GetMapping
+    public ResponseEntity getGroupList(@PageableDefault(page = 0, size = 5) Pageable page){
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupList(page));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity getGroupMemberList(@PageableDefault(page = 0, size = 5) Pageable page, @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupMemberList(page, id));
@@ -40,11 +45,11 @@ public class GroupController {
 
     @PostMapping("/join")
     public ResponseEntity joinGroup(@RequestBody GroupMemberRequestDto groupMemberRequestDto){
-        return ResponseEntity.status(HttpStatus.OK).body(groupService.joinGroup(groupMemberRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.joinGroup(groupMemberRequestDto));
     }
 
     @PostMapping("/leave")
     public ResponseEntity leaveGroup(@RequestBody GroupMemberRequestDto groupMemberRequestDto){
-        return ResponseEntity.status(HttpStatus.OK).body(groupService.leaveGroup(groupMemberRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.leaveGroup(groupMemberRequestDto));
     }
 }
