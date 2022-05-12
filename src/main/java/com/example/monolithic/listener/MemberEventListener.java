@@ -1,4 +1,4 @@
-package com.example.monolithic.handler;
+package com.example.monolithic.listener;
 
 import com.example.monolithic.repository.MemberEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class MemberEventHandler {
-
+public class MemberEventListener {
     @Async
     @EventListener
     public void sendMail(MemberEvent event) {
