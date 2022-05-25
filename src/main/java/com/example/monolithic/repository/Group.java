@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -26,6 +28,8 @@ public class Group {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime lastModifiedAt;
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    private List<GroupMember> groupMemberList = new ArrayList<>();
 
     @Builder
     public Group(String groupName) {

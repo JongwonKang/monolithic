@@ -39,7 +39,7 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupList(page));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/member")
     public ResponseEntity getGroupMemberList(@PageableDefault(page = 0, size = 5) Pageable page, @PathVariable Long id, @RequestBody SearchRequestDto searchRequestDto){
         return ResponseEntity.status(HttpStatus.OK).body(groupService.getGroupMemberList(page, id, searchRequestDto));
     }
